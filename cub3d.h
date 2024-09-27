@@ -6,7 +6,7 @@
 /*   By: aait-lha <aait-lha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 18:15:21 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/09/20 14:42:23 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:39:13 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,31 @@ typedef struct s_player_data
 	double dir_y;
 } t_player_data;
 
+typedef struct s_color_data
+{
+	int	red;
+	int	green;
+	int	blue;
+} t_color_data;
+
 typedef struct s_texture_data
 {
-	int		count;
 	char	*north;
 	char	*south;
 	char	*weast;
 	char	*east;
-	char	*floor;
-	char	*ceiling;
 } t_texture_data;
 
 typedef struct s_map_data
 {
 	char			**map;
-	int				map_width;
+	int				count_textures;
+	int				count_colors;
 	int				map_height;
 	int				elements;
+	int				fd;
+	t_color_data	*floor;
+	t_color_data	*ceiling;
 	t_player_data	*player;
 	t_texture_data	*texture;
 }	t_map_data;
@@ -60,6 +68,27 @@ char	**ft_split(char const *s, char c);
 int		ft_isspace(int c);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 int		count_strings(char **s);
+int		ft_isdigit(int c);
+
+
+
+char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strtrim(char *s, char *set);
+
+int	ft_atoi(char *number);
+void	error(char	*message, int fd);
+void	check_file_extention(char *file);
+int	is_empty_line(char *line);
+int	get_map_width(char *line);
+void	store_texture(char *type, char *path, t_map_data *map);
+void	check_color_format(char *format, t_map_data *map, char type);
+void	element_type(char *line, t_map_data *map);
+void	check_wall(char *line, t_map_data *map);
+void	check_map_matrix(t_map_data *map, char *line, int j);
+void	load_file(char *file, t_map_data *map);
+
+
+
 
 
 

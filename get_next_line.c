@@ -6,7 +6,7 @@
 /*   By: aait-lha <aait-lha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:05:34 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/09/19 19:10:12 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:50:53 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ static char	*extract_line(char *st_var)
 		line = malloc(sizeof(char) * (i + 2));
 		if (!line)
 			return (NULL);
-		line[i] = st_var[i];
-		line[i + 1] = '\0';
+		line[i] = '\0';
 		i = 0;
 		while (st_var[i] && st_var[i] != '\n')
 		{

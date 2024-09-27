@@ -6,11 +6,54 @@
 /*   By: aait-lha <aait-lha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 18:49:52 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/09/19 23:01:45 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:52:02 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	char	*sub;
+	size_t	i;
+
+	if (!s)
+		return (0);
+	if (start >= ft_strlen(s))
+		return (ft_strdup(""));
+	sub = malloc(len + 1);
+	if (!sub)
+		return (0);
+	i = 0;
+	while (i < len && s[start + i])
+	{
+		sub[i] = s[start + i];
+		i++;
+	}
+	sub[i] = '\0';
+	return (sub);
+}
+
+char	*ft_strtrim(char *s, char *set)
+{
+	size_t	start;
+	size_t	end;
+
+	if (!s)
+		return (0);
+	start = 0;
+	while (s[start] && ft_strchr(set, s[start]))
+		start++;
+	end = ft_strlen(s);
+	while (end > start && ft_strchr(set, s[end - 1]))
+		end--;
+	return (ft_substr(s, start, end - start));
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
 
 int	ft_isspace(int c)
 {
@@ -125,4 +168,25 @@ char	*ft_strdup(char *s1)
 	}
 	s2[i] = '\0';
 	return (s2);
+}
+
+int	ft_atoi(char *number)
+{
+	int		i;
+	long	nbr;
+
+	i = 0;
+	nbr = 0;
+	while (ft_isspace(number[i]))
+		i++;
+	if (number[i] == '+')
+		i++;
+	while (ft_isdigit(number[i]))
+	{
+		nbr = nbr * 10 + number[i] - '0';
+		i++;
+	}
+	if (number[i] || nbr < 0 || nbr > 255)
+		error("Invalid number\n", -1);
+	return (nbr);
 }

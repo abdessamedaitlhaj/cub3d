@@ -1,4 +1,4 @@
-SRCS = cub3d.c get_next_line.c helper_functions.c ft_split.c
+SRCS = cub3d.c get_next_line.c helper_functions.c ft_split.c store_data.c utils1.c parsing.c
 
 OBJS = $(SRCS:.c=.o)
 
