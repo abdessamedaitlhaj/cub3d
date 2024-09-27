@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aait-lha <aait-lha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-hara <ael-hara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:34:25 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/09/25 21:37:19 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:11:23 by ael-hara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../include/cub3d.h"
 
 void	check_color_format(char *format, t_map_data *map, char type)
 {

@@ -1,27 +1,35 @@
-SRCS = cub3d.c get_next_line.c helper_functions.c ft_split.c store_data.c utils1.c parsing.c
-
+CC = cc 
+FLAGS =
+NAME = CUB3D
+RM = rm -f
+SRCS = 	cub3d.c 			\
+		parsing/get_next_line.c		\
+ 		parsing/helper_functions.c	\
+  		parsing/ft_split.c			\
+   		parsing/store_data.c		\
+   	 	parsing/utils1.c			\
+	 	parsing/parsing.c
+		
+NEW_MLX			=	"/Users/$(USER)/MLX42/build/libmlx42.a" -Iinclude -lglfw \
+				-L"/Users/$(USER)/homebrew/opt/glfw/lib/"	\
+				-framework Cocoa -framework OpenGL 		\
+				-framework IOKit
 OBJS = $(SRCS:.c=.o)
-
-CC = cc
-
-NAME = cub3d
-
-CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(OBJS) 
+	$(CC) $(FLAGS) $(OBJS)  -o $(NAME) $(NEW_MLX)
 
-%.o: %.c cub3d.h
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c include/cub3d.h
+	$(CC) $(FLAGS) -c $< -o $@ $(NEW_MLX)
 
 clean:
-	rm -f $(OBJS)
+	$(RM) -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
