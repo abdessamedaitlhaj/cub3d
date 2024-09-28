@@ -1,5 +1,5 @@
 CC = cc 
-FLAGS =
+FLAGS = -w #-Wall -Wextra -Werror
 NAME = CUB3D
 RM = rm -f
 SRCS = 	cub3d.c 			\
@@ -9,7 +9,9 @@ SRCS = 	cub3d.c 			\
    		parsing/store_data.c		\
    	 	parsing/utils1.c			\
 	 	parsing/parsing.c			\
-		raycasting/map_init.c
+		raycasting/map_init.c		\
+		raycasting/raycasting.c		\
+		raycasting/border.c		
 		
 NEW_MLX			=	"/Users/$(USER)/MLX42/build/libmlx42.a" -Iinclude -lglfw \
 				-L"/Users/$(USER)/homebrew/opt/glfw/lib/"	\

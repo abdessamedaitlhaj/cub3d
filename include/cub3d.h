@@ -12,13 +12,15 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <math.h>
 
 typedef struct s_player_data
 {
-	double po_x;
-	double po_y;
-	double dir_x;
-	double dir_y;
+	int		po_x;
+	int		po_y;
+	int		player_speed;
+	double	dir_x;
+	double	dir_y;
 } t_player_data;
 
 typedef struct s_color_data
@@ -44,6 +46,11 @@ typedef struct s_map_data
 	int				map_height;
 	int				elements;
 	int				fd;
+	int 			max_width;
+	int 			element_width;
+	int 			element_height;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
 	t_color_data	*floor;
 	t_color_data	*ceiling;
 	t_player_data	*player;
@@ -79,6 +86,24 @@ void	check_wall(char *line, t_map_data *map);
 void	check_map_matrix(t_map_data *map, char *line, int j);
 void	load_file(char *file, t_map_data *map);
 
+
+
+
+/////////////////////////raycasting ////////////////////////
+
+
+#define WIDTH 1500
+#define HEIGHT 1200
+#define BLACK 0x000000FF
+#define WHITE 0xFFFFFFFF 
+#define RED 0xFF0000FF
+#define FOV 60
+
+
+
+
+
+void raycasting_scene(t_map_data *map);
 
 
 
