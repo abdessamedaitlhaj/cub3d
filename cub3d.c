@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-hara <ael-hara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:25:11 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/09/28 14:37:29 by ael-hara         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:06:45 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	main (int argc, char **argv)
 	load_file(argv[1], &map);
 	fill_matrix(argv[1], &map);
 	print_matrix(&map);
-	raycasting_scene(&map);
+	//raycasting_scene(&map);
 	//  execute_scene();
 	return (0);
 }

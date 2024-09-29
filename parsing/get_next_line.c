@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-hara <ael-hara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:05:34 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/09/27 18:10:45 by ael-hara         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:30:40 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static char	*read_line(int fd, char *st_var)
 	int		nb_bytes;
 
 	nb_bytes = 1;
-	buffer = malloc(1);
+	buffer = malloc(2);
 	if (!buffer)
 		return (free(st_var), st_var = NULL, NULL);
 	while (nb_bytes != 0 && !ft_strchr(st_var, '\n'))
