@@ -16,9 +16,9 @@
 
 typedef struct s_player_data
 {
-	int		po_x;
-	int		po_y;
-	int		player_speed;
+	double		po_x;
+	double		po_y;
+	double		player_speed;
 	double	dir_x;
 	double	dir_y;
 } t_player_data;
@@ -47,8 +47,6 @@ typedef struct s_map_data
 	int				elements;
 	int				fd;
 	int 			max_width;
-	int 			element_width;
-	int 			element_height;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	t_color_data	*floor;
@@ -92,18 +90,22 @@ void	load_file(char *file, t_map_data *map);
 /////////////////////////raycasting ////////////////////////
 
 
-#define WIDTH 1500
-#define HEIGHT 1200
+#define WIDTH 1920
+#define HEIGHT 1080
 #define BLACK 0x000000FF
 #define WHITE 0xFFFFFFFF 
 #define RED 0xFF0000FF
 #define FOV 60
+#define GRID_SIZE 64
+#define PLAYER_SIZE 10
+#define SPEED 10
 
 
 
 
 
 void raycasting_scene(t_map_data *map);
+int border (t_map_data *map, int border_x , int border_y);
 
 
 

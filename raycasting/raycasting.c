@@ -21,9 +21,7 @@ void raycasting_scene(t_map_data *map)
 	
 	map->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", 0);
 	map->max_width = max_width(map);
-	map->element_width = WIDTH / map->max_width;
-	map->element_height = HEIGHT / map->map_height;
-	map->player->player_speed = 5;
+	map->player->player_speed = SPEED;
 	map_init(map);
 
 	mlx_loop(map->mlx);

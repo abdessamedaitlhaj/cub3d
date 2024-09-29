@@ -5,10 +5,10 @@ void square(t_map_data *map, int x, int y, int color)
 	int j;
 
 	i = 0;
-	while (i < map->element_height)
+	while (i < GRID_SIZE)
 	{
 		j = 0;
-		while (j < map->element_width)
+		while (j < GRID_SIZE)
 		{
 			mlx_put_pixel(map->img, x + j, y + i, color);
 			j++;
@@ -21,16 +21,15 @@ void square_red(t_map_data *map, int x, int y, int color)
 	int i;
 	int j;
 
+	// your iin center of the square do 10 x 10
+
 	i = 0;
-	while (i < map->element_height)
+	while (i < PLAYER_SIZE)
 	{
 		j = 0;
-		while (j < map->element_width)
+		while (j < PLAYER_SIZE)
 		{
-			if(i > map->element_height / 2 && i < map->element_height / 2 + 10 && j > map->element_width / 2  - 5 && j < map->element_width / 2 + 5)
-				mlx_put_pixel(map->img, x + j, y + i, color);
-			else
-				mlx_put_pixel(map->img, x + j, y + i, WHITE);
+			mlx_put_pixel(map->img, x -5 + j, y -5 + i, color);
 			j++;
 		}
 		i++;
@@ -54,9 +53,9 @@ void ft_move_player(t_map_data *map, int direction)
 		while (map->map[i][j])
 		{
 			if (map->map[i][j] == '1')
-				square(map, j * map->element_width, i * map->element_height, BLACK);
+				square(map, j * GRID_SIZE, i * GRID_SIZE, BLACK);
 			if (map->map[i][j] == '0' || map->map[i][j] == 'N')
-				square(map, j * map->element_width, i * map->element_height, WHITE);
+				square(map, j * GRID_SIZE, i * GRID_SIZE, WHITE);
 			j++;
 		}
 		i++;
@@ -64,21 +63,29 @@ void ft_move_player(t_map_data *map, int direction)
 	if (direction == 1)
 	{
 		map->player->po_y += map->player->player_speed;
+		if (border(map, 0, PLAYER_SIZE / 2))
+			map->player->po_y -= map->player->player_speed;
 		square_red(map, map->player->po_x, map->player->po_y, RED);
 	}
 	else if (direction == 2)
 	{
 		map->player->po_y -= map->player->player_speed;
+		if (border(map , 0, -PLAYER_SIZE / 2))
+			map->player->po_y += map->player->player_speed;
 		square_red(map, map->player->po_x, map->player->po_y, RED);
 	}
 	else if (direction == 3)
 	{
 		map->player->po_x += map->player->player_speed;
+		if (border(map , PLAYER_SIZE / 2, 0))
+			map->player->po_x -= map->player->player_speed;
 		square_red(map, map->player->po_x, map->player->po_y, RED);
 	}
 	else if (direction == 4)
 	{
 		map->player->po_x -= map->player->player_speed;
+		if (border(map , -PLAYER_SIZE / 2, 0))
+			map->player->po_x += map->player->player_speed;
 		square_red(map, map->player->po_x, map->player->po_y, RED);
 	}
 }
@@ -86,16 +93,16 @@ void ft_move_player(t_map_data *map, int direction)
 void ft_move(mlx_key_data_t key, void* param)
 {
 	t_map_data *map = (t_map_data *)param;
-	if (key.key == MLX_KEY_W && key.action == MLX_PRESS)
-		ft_move_player(map, 1);
-		// puts("UP ");
-	else if (key.key == MLX_KEY_S && key.action == MLX_PRESS)
+	if (key.key == MLX_KEY_W)
 		ft_move_player(map, 2);
+		// puts("UP ");
+	else if (key.key == MLX_KEY_S)
+		ft_move_player(map, 1);
 		// puts("DOWN");
-	else if (key.key == MLX_KEY_RIGHT && key.action == MLX_PRESS)
+	else if (key.key == MLX_KEY_RIGHT)
 		ft_move_player(map, 3);
 		// puts("RIGHT");
-	else if (key.key == MLX_KEY_LEFT && key.action == MLX_PRESS)
+	else if (key.key == MLX_KEY_LEFT)
 		ft_move_player(map, 4);
 		// puts("LEFT");
 }
@@ -108,22 +115,20 @@ void map_init(t_map_data *map)
 
 	map->img = mlx_new_image(map->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(map->mlx, map->img, 0, 0);
-	map->element_height = min(map->element_width, map->element_height);
-	map->element_width = map->element_height;
 	while (i < map->map_height)
 	{
 		j = 0;
 		while (map->map[i][j])
 		{
 			if (map->map[i][j] == '1')
-				square(map, j * map->element_width, i * map->element_height, BLACK);
-			else if (map->map[i][j] == '0')
-				square(map, j * map->element_width, i * map->element_height, WHITE);
-			else if (map->map[i][j] == 'N')
+				square(map, j * GRID_SIZE, i * GRID_SIZE, BLACK);
+			if (map->map[i][j] == '0' || map->map[i][j] == 'N')
+				square(map, j * GRID_SIZE, i * GRID_SIZE, WHITE);
+			if (map->map[i][j] == 'N')
 			{
-				map->player->po_x = j * map->element_width ;
-				map->player->po_y = i * map->element_height;
-				square_red(map, j * map->element_width, i * map->element_height, RED);
+				map->player->po_x = j * GRID_SIZE  + GRID_SIZE / 2;
+				map->player->po_y = i * GRID_SIZE + GRID_SIZE / 2;
+				square_red(map, map->player->po_x, map->player->po_y, RED);
 			}
 			j++;
 		}
