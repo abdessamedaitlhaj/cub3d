@@ -19,8 +19,14 @@ typedef struct s_player_data
 	double		po_x;
 	double		po_y;
 	double		player_speed;
-	double	dir_x;
-	double	dir_y;
+	double		player_angle;
+	double		rotation_speed;
+	double		ray_distance;
+	double		distance;
+	double		vertical_x;
+	double		vertical_y;
+	double		horizontal_x;
+	double		horizontal_y;
 } t_player_data;
 
 typedef struct s_color_data
@@ -99,6 +105,16 @@ void	load_file(char *file, t_map_data *map);
 #define GRID_SIZE 64
 #define PLAYER_SIZE 10
 #define SPEED 10
+#define PI 3.14159265359
+#define ROTATION_SPEED 0.1
+
+enum e_direction
+{
+	UP = 1,
+	DOWN = 2,
+	RIGHT = 3,
+	LEFT = 4
+};
 
 
 
@@ -106,6 +122,9 @@ void	load_file(char *file, t_map_data *map);
 
 void raycasting_scene(t_map_data *map);
 int border (t_map_data *map, int border_x , int border_y);
+int ft_border(t_map_data *map);
+void draw_ray(t_map_data *map, int x, int y, int color);
+
 
 
 
