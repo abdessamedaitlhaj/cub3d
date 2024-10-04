@@ -104,9 +104,9 @@ void	load_file(char *file, t_map_data *map);
 #define FOV 60
 #define GRID_SIZE 64
 #define PLAYER_SIZE 10
-#define SPEED 10
+#define SPEED 20
 #define PI 3.14159265359
-#define ROTATION_SPEED 0.1
+#define ROTATION_SPEED 0.2
 
 enum e_direction
 {
@@ -124,6 +124,10 @@ void raycasting_scene(t_map_data *map);
 int border (t_map_data *map, int border_x , int border_y);
 int ft_border(t_map_data *map);
 void draw_ray(t_map_data *map, int x, int y, int color);
+
+void map_init(t_map_data *map);
+void put_line(mlx_image_t *img, int x0, int y0, int x1, int y1);
+void ft_move_player(t_map_data *map, int direction);
 
 
 

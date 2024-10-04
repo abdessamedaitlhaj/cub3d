@@ -28,8 +28,10 @@ void put_line(mlx_image_t *img, int x0, int y0, int x1, int y1)
 
     while (1)
     {
-        // printf("x0 = %d   ------ y0 = %d\n", x0, y0);
-        mlx_put_pixel(img, x0, y0, RED);
+		if (x0 >= 0 && x0 < WIDTH && y0 >= 0 && y0 < HEIGHT)
+     		mlx_put_pixel(img, x0, y0, RED);
+		else 
+			break;
         if (x0 == x1 && y0 == y1)
             break;
         int e2 = 2 * err;
@@ -47,39 +49,10 @@ void put_line(mlx_image_t *img, int x0, int y0, int x1, int y1)
 
 }
 
-// void    draw_line1(int x0, int y0, int x1, int y1, t_data *data)
-// {
-//     int dx = abs(x1 - x0);
-//     int dy = abs(y1 - y0);
-//     int sx = x0 < x1 ? 1 : -1;
-//     int sy = y0 < y1 ? 1 : -1;
-//     int err = dx - dy;
-
-//     while (1)
-//     {
-//         // printf("x0 = %d   ------ y0 = %d\n", x0, y0);
-//         mlx_put_pixel(data->img, x0, y0, RED);
-//         if (x0 == x1 && y0 == y1)
-//             break;
-//         int e2 = 2 * err;
-//         if (e2 > -dy)
-//         {
-//             err -= dy;
-//             x0 += sx;
-//         }
-//         if (e2 < dx)
-//         {
-//             err += dx;
-//             y0 += sy;
-//         }
-//     }
-// }
 void square_red(t_map_data *map, int x, int y, int color)
 {
 	int i;
 	int j;
-
-	// your iin center of the square do 10 x 10
 
 	i = 0;
 	while (i < PLAYER_SIZE)
@@ -92,14 +65,10 @@ void square_red(t_map_data *map, int x, int y, int color)
 		}
 		i++;
 	}
-	// drw line to show the direction of the player using the angle of the player
-	// draw_ray(map, x, y, color);
-	int distance = 100;
-	put_line(map->img, x, y, x + distance * cos(map->player->player_angle), y + distance * sin(map->player->player_angle));
-	double angle =  (FOV / 2) * (PI / 180);
-	put_line(map->img, x, y, x + 60 * cos(map->player->player_angle + angle), y + 60 * sin(map->player->player_angle + angle));
-	put_line(map->img, x, y, x + 60 * cos(map->player->player_angle - angle), y + 60 * sin(map->player->player_angle - angle));
-
+	map->player->player_angle = remainder(map->player->player_angle, 2 * PI);
+	if (map->player->player_angle < 0)
+		map->player->player_angle += 2 * PI;
+	draw_ray(map, x, y, color);
 }
 
 int min(int a, int b)
@@ -210,9 +179,10 @@ void ft_move(mlx_key_data_t key, void* param)
 	}
 	else if (key.key == MLX_KEY_A)
 	{
+		double epsilon = 0.000001;
 		map->player->player_angle -= map->player->rotation_speed;
-		if (map->player->player_angle < 0)
-			map->player->player_angle = 2 * PI;
+		if (map->player->player_angle <= 0)
+			map->player->player_angle = 2 * PI - epsilon;
 		ft_move_player(map, 0);
 	}
 }

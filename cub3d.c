@@ -6,7 +6,7 @@
 /*   By: ael-hara <ael-hara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:25:11 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/09/29 18:23:10 by ael-hara         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:10:19 by ael-hara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 void	init_scene(t_map_data *map)
 {
+// Dhicham4242@
+//    hidriouc   
 	map->map = NULL;
 	map->map_height = 0;
 	map->elements = 0;
