@@ -59,8 +59,9 @@ void square_red(t_map_data *map, int x, int y, int color)
 	{
 		j = 0;
 		while (j < PLAYER_SIZE)
-		{
-			mlx_put_pixel(map->img, x -5 + j, y -5 + i, color);
+		{	
+			if (x -5 + j >= 0 && x -5 + j < WIDTH && y -5 + i >= 0 && y -5 + i < HEIGHT)
+				mlx_put_pixel(map->img, x -5 + j, y -5 + i, color);
 			j++;
 		}
 		i++;
@@ -162,22 +163,22 @@ void ft_move_player(t_map_data *map, int direction)
 void ft_move(mlx_key_data_t key, void* param)
 {
 	t_map_data *map = (t_map_data *)param;
-	if (key.key == MLX_KEY_W)
+	if (key.key == MLX_KEY_W )
 		ft_move_player(map, DOWN);
-	else if (key.key == MLX_KEY_S)
+	 if (key.key == MLX_KEY_S)
 		ft_move_player(map, UP);
-	else if (key.key == MLX_KEY_RIGHT)
+	 if (key.key == MLX_KEY_D)
 		ft_move_player(map, RIGHT);
-	else if (key.key == MLX_KEY_LEFT)
+	 if (key.key == MLX_KEY_A)
 		ft_move_player(map, LEFT);
-	else if (key.key == MLX_KEY_D)
+	 if (key.key == MLX_KEY_RIGHT)
 	{
 		map->player->player_angle += map->player->rotation_speed;
 		if (map->player->player_angle > 2 * PI)
 			map->player->player_angle = 0;
 		ft_move_player(map, 0);
 	}
-	else if (key.key == MLX_KEY_A)
+	 if (key.key == MLX_KEY_LEFT)
 	{
 		double epsilon = 0.000001;
 		map->player->player_angle -= map->player->rotation_speed;
@@ -218,5 +219,6 @@ void map_init(t_map_data *map)
 		}
 		i++;
 	}
+	// mlx_loop_hook(map->mlx, &ft_move, map);
 	mlx_key_hook(map->mlx, &ft_move, map);
 }

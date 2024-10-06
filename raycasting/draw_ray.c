@@ -1,106 +1,140 @@
 #include "../include/cub3d.h"
 
-int vertical_intersection(t_map_data *map, int x, int y, double angle, int color)
+// int ft_strlen(char *s)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (s[i])
+// 		i++;
+// 	return (i);
+// }
+
+double normal_angle(double angle)
 {
-	int facing_down = angle > 0 && angle < PI;
+	angle = remainder(angle, 2 * PI);
+	if (angle < 0)
+		angle += 2 * PI;
+	return angle;
+}
+
+double vertical_intersection(t_map_data *map, int x, int y, double angle, int color)
+{
+	angle = normal_angle(angle);
 	int facing_right = angle < 0.5 * PI || angle > 1.5 * PI;
 	int facing_left = !facing_right;
+	int facing_down = angle > 0 && angle < PI;
 	int facing_up = !facing_down;
-	double ax = floor(x / GRID_SIZE) * GRID_SIZE;
-	if (facing_right)
-		ax += GRID_SIZE;
-	else
-		ax -= 0.0001;
-	double ay = y + (ax - x) * tan(angle);
-	double dx = facing_right ? GRID_SIZE : -GRID_SIZE;
-	double dy = dx * tan(angle);
-	if (facing_up && facing_left)
-		if (angle == 0 || angle == PI)
-			return (map->map_height * GRID_SIZE);
-		while (ax >= 0 && ax < WIDTH && ay >= 0 && ay < HEIGHT)
+
+	double x_intercept;
+	double y_intercept;
+	double x_step;
+	double y_step;
+	int wall_hit_x = 0;
+	int wall_hit_y = 0;
+	int Wall_content = 0;
+
+	x_intercept = floor(x / GRID_SIZE) * GRID_SIZE;
+	x_intercept += facing_right ? GRID_SIZE : 0;
+
+	y_intercept = y + (x_intercept - x) * tan(angle);
+	x_step = GRID_SIZE;
+	x_step *= facing_left ? -1 : 1;
+
+	y_step = GRID_SIZE * tan(angle);
+	y_step *= (facing_up && y_step > 0) ? -1 : 1;
+	y_step *= (facing_down && y_step < 0) ? -1 : 1;
+
+	float next_vertical_x = x_intercept;
+	float next_vertical_y = y_intercept;
+
+	while (next_vertical_x >= 0 && next_vertical_x <= WIDTH && next_vertical_y >= 0 && next_vertical_y <= HEIGHT)
 	{
-		int map_x = (int)(ax / GRID_SIZE);
-		int map_y = (int)(ay / GRID_SIZE);
-		if (map_x >= 0 && map_x < map->max_width && map_y >= 0 && map_y < map->map_height) {
-			if (map->map[map_y][map_x] &&   map->map[map_y][map_x] == '1')
-			{
-				// put_line(map->img, x, y, ax, ay, color);
-				return (sqrt(pow(ax - x, 2) + pow(ay - y, 2)));
-			}
+		float x_to_check = next_vertical_x + (facing_left ? -1 : 0);
+		float y_to_check = next_vertical_y;
+		int check_x = (int)floor(x_to_check / GRID_SIZE);
+		int check_y = (int)floor(y_to_check / GRID_SIZE);
+		if (check_x < 0 || check_y < 0 || check_x >= map->max_width || check_y >= map->map_height || check_x > ft_strlen(map->map[check_y]))
+			break;
+		if (map->map[check_y][check_x] == '1')
+		{
+			wall_hit_x = next_vertical_x;
+			wall_hit_y = next_vertical_y;
+			Wall_content = map->map[(int)(y_to_check / GRID_SIZE)][(int)(x_to_check / GRID_SIZE)];
+			return (sqrt((wall_hit_x - x) * (wall_hit_x - x) + (wall_hit_y - y) * (wall_hit_y - y)));
 		}
-		ax += dx;
-		ay += dy;
+		else
+		{
+			next_vertical_x += x_step;
+			next_vertical_y += y_step;
+		}
 	}
+	return (GRID_SIZE * map->max_width);
 }
 
-int horizontal_intersection(t_map_data *map, int x, int y, double angle, int color) {
-    // Normalize angle to be between 0 and 2*PI
-    while (angle < 0)
-        angle += 2 * PI;
-    while (angle >= 2 * PI)
-        angle -= 2 * PI;
+double horizontal_intersection(t_map_data *map, int x, int y, double angle, int color)
+{
+	//print angle
+	// printf("angle: %f\n", map->player->player_angle);
+	angle = normal_angle(angle);
+	int facing_down = angle > 0 && angle < PI;
+	int facing_up = !facing_down;
+	int facing_right = angle < 0.5 * PI || angle > 1.5 * PI;
+	int facing_left = !facing_right;
 
-    // If angle is exactly 0 or PI, ray is horizontal and won't hit horizontal lines
-    if (fabs(angle - 0) < 0.0001 || fabs(angle - PI) < 0.0001)
-        return (map->map_height * GRID_SIZE);
+	double x_intercept;
+	double y_intercept;
+	double x_step;
+	double y_step;
+	int wall_hit_x = 0;
+	int wall_hit_y = 0;
+	int Wall_content = 0;
 
-    int facing_down = angle > 0 && angle < PI;
-    int facing_right = angle < 0.5 * PI || angle > 1.5 * PI;
+	y_intercept = floor(y / GRID_SIZE) * GRID_SIZE;
+	y_intercept += facing_down ? GRID_SIZE : 0;
 
-    // Find first horizontal intersection
-    double ay = floor(y / (double)GRID_SIZE) * GRID_SIZE;
-    if (facing_down)
-        ay += GRID_SIZE;
+	x_intercept = x + (y_intercept - y) / tan(angle);
+	y_step = GRID_SIZE;
+	y_step *= facing_up ? -1 : 1;
 
-    // Prevent division by zero when angle is near vertical
-    double tan_angle = tan(angle);
-    if (fabs(tan_angle) < 0.0001)
-        return (map->map_height * GRID_SIZE);
+	x_step = GRID_SIZE / tan(angle);
+	x_step *= (facing_left && x_step > 0) ? -1 : 1;
+	x_step *= (facing_right && x_step < 0) ? -1 : 1;
 
-    // Calculate x coordinate of first intersection
-    double ax = x + (ay - y) / tan_angle;
+	float next_horizontal_x = x_intercept;
+	float next_horizontal_y = y_intercept;
 
-    // Calculate step sizes
-    double dy = facing_down ? GRID_SIZE : -GRID_SIZE;
-    double dx = GRID_SIZE / tan_angle;
-    if (!facing_down)
-        dx = -dx;
+	while (next_horizontal_x >= 0 && next_horizontal_x <= WIDTH && next_horizontal_y >= 0 && next_horizontal_y <= HEIGHT)
+	{
+		float x_to_check = next_horizontal_x;
+		float y_to_check = next_horizontal_y + (facing_up ? -1 : 0);
+		int check_x = (int)floor(x_to_check / GRID_SIZE);
+		int check_y = (int)floor(y_to_check / GRID_SIZE);
+		if (check_x < 0 || check_y < 0 || check_x >= map->max_width || check_y >= map->map_height || check_x > ft_strlen(map->map[check_y]))
+			break;
+		if (map->map[check_y][check_x] == '1')
+		{
+			wall_hit_x = next_horizontal_x;
+			wall_hit_y = next_horizontal_y;
+			Wall_content = map->map[(int)(y_to_check / GRID_SIZE)][(int)(x_to_check / GRID_SIZE)];
+			return (sqrt((wall_hit_x - x) * (wall_hit_x - x) + (wall_hit_y - y) * (wall_hit_y - y)));
+		}
+		else
+		{
+			next_horizontal_x += x_step;
+			next_horizontal_y += y_step;
+		}
+	}
+	// return (GRID_SIZE * map->max_width);
 
-    // Move slightly inside the grid cell to prevent edge cases
-    const double EPSILON = 0.001;
-    
-    while (ax >= 0 && ax < WIDTH && ay >= 0 && ay < HEIGHT) {
-        // Calculate the grid cell to check
-        int map_x = (int)(ax / GRID_SIZE);
-        // When checking upward, we need to check the cell above
-        int map_y = facing_down ? (int)(ay / GRID_SIZE) : (int)(ay / GRID_SIZE) - 1;
-
-        // Check if we're in bounds and hit a wall
-        if (map_x >= 0 && map_x < map->max_width && 
-            map_y >= 0 && map_y < map->map_height) {
-            if (map->map[map_y][map_x] == '1') {
-                // Calculate and return the distance
-                double distance = sqrt(pow(ax - x, 2) + pow(ay - y, 2));
-                return (distance);
-            }
-        }
-
-        // Move to next intersection point
-        ax += dx;
-        ay += dy;
-    }
-
-    return (map->map_height * GRID_SIZE);
 }
-
-
 
 void min_intersection (t_map_data *map, int x, int y, double angle, int color)
 {
 	// color always red
 	double distance;
 	map->player->distance = horizontal_intersection(map, x, y, angle, color);
-
+	printf("horizontal_distance: %f\n", map->player->distance);
 	distance = vertical_intersection(map, x, y, angle, color);
 
 	if (map->player->distance > distance)
@@ -108,13 +142,12 @@ void min_intersection (t_map_data *map, int x, int y, double angle, int color)
 }
 void draw_ray(t_map_data *map, int x, int y, int color)
 {
-	printf("hello\n");
+	printf("ray_distance: %f\n", map->player->ray_distance);
 	int i;
 	i = 0;
 	double angle =  map->player->player_angle - ((FOV / 2) * (PI / 180));
 	angle = angle < 0 ? 2 * PI + angle : angle;
 	angle = angle > 2 * PI ? angle - 2 * PI : angle;
-	printf("angle = %f\n", angle);
 	while (i < WIDTH)
 	{
 		min_intersection(map, x, y, angle, color);
@@ -124,3 +157,4 @@ void draw_ray(t_map_data *map, int x, int y, int color)
 		i++;
 	}
 }
+
