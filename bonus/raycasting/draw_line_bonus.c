@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 20:51:24 by ael-hara          #+#    #+#             */
-/*   Updated: 2024/10/23 02:12:14 by paradais         ###   ########.fr       */
+/*   Created: 2024/10/23 19:47:00 by aait-lha          #+#    #+#             */
+/*   Updated: 2024/10/23 19:47:01 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../include/cub3d_bonus.h"
 

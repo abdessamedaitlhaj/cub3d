@@ -6,7 +6,7 @@
 /*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:12:20 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/22 21:10:44 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:14:56 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,63 +23,45 @@ static int	count_words(char const *s)
 	return (1 + count_words(s));
 }
 
-static void	free_tab(char **tab, int i)
-{
-	while (i > 0)
-	{
-		i--;
-		free(tab[i]);
-	}
-	free(tab);
-}
-
-static int	malloc_tab(char **tab, char const *s, int i)
+static int	malloc_tab(t_split_args *args, t_node **collected_data)
 {
 	int		k;
 	int		j;
 
 	k = 0;
-	while (s[k] && !ft_isspace(s[k]))
+	while (args->s[k] && !ft_isspace(args->s[k]))
 		k++;
-	tab[i] = malloc(sizeof(char) * (k + 1));
-	if (!tab[i])
-	{
-		free_tab(tab, i);
-		return (0);
-	}
+	args->tab[args->i] = ft_malloc(sizeof(char) * (k + 1), collected_data);
 	j = 0;
 	while (j < k)
 	{
-		tab[i][j] = s[j];
+		args->tab[args->i][j] = args->s[j];
 		j++;
 	}
-	tab[i][j] = '\0';
+	args->tab[args->i][j] = '\0';
 	return (1);
 }
 
-char	**ft_split(char const *s)
+char	**ft_split(char const *s, t_node **collected_data)
 {
-	int		total_length;
-	int		i;
-	char	**tab;
+	int				total_length;
+	t_split_args	args;
 
-	if (!s)
+	args = (t_split_args){NULL, s, ' ', 0};
+	if (!args.s)
 		return (NULL);
-	total_length = count_words(s);
-	tab = malloc(sizeof(char *) * (total_length + 1));
-	if (!tab)
-		return (NULL);
-	i = 0;
-	while (i < total_length)
+	total_length = count_words(args.s);
+	args.tab = ft_malloc(sizeof(char *) * (total_length + 1), collected_data);
+	args.i = 0;
+	while (args.i < total_length)
 	{
-		while (*s && ft_isspace(*s))
-			s++;
-		if (!malloc_tab(tab, s, i))
-			return (NULL);
-		while (*s && !ft_isspace(*s))
-			s++;
-		i++;
+		while (*args.s && ft_isspace(*args.s))
+			args.s++;
+		malloc_tab(&args, collected_data);
+		while (*args.s && !ft_isspace(*args.s))
+			args.s++;
+		args.i++;
 	}
-	tab[i] = NULL;
-	return (tab);
+	args.tab[args.i] = NULL;
+	return (args.tab);
 }

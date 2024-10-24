@@ -6,7 +6,7 @@
 /*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 18:56:43 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/22 21:10:39 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:11:02 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,20 @@ char	*skip_elements(t_map_data *map)
 	char	*line;
 	int		j;
 
-	line = get_next_line(map->fd);
+	line = get_next_line(map->fd, &map->collected_data);
 	j = 0;
 	while (line && j < 6)
 	{
 		if (is_empty_line(line))
 		{
-			free(line);
-			line = get_next_line(map->fd);
+			line = get_next_line(map->fd, &map->collected_data);
 			continue ;
 		}
-		free(line);
-		line = get_next_line(map->fd);
+		line = get_next_line(map->fd, &map->collected_data);
 		j++;
 	}
 	while (is_empty_line(line))
-	{
-		free(line);
-		line = get_next_line(map->fd);
-	}
+		line = get_next_line(map->fd, &map->collected_data);
 	return (line);
 }
 
@@ -80,9 +75,7 @@ void	fill_map(t_map_data *map, char *line)
 	while (++i < map->map_height)
 	{
 		l = get_map_width(line);
-		map->map[i] = malloc(l + 1);
-		if (!map->map[i])
-			error("Memory allocation failed\n", -1, map);
+		map->map[i] = ft_malloc(l + 1, &map->collected_data);
 		j = 0;
 		k = 0;
 		while (ft_isspace(line[j]))
@@ -91,8 +84,7 @@ void	fill_map(t_map_data *map, char *line)
 		while (line[j] && j < m + l)
 			map->map[i][k++] = line[j++];
 		map->map[i][k] = '\0';
-		free(line);
-		line = get_next_line(map->fd);
+		line = get_next_line(map->fd, &map->collected_data);
 	}
 }
 
@@ -103,9 +95,8 @@ void	fill_matrix(char *file, t_map_data *map)
 	int		j;
 	int		k;
 
-	map->map = malloc(sizeof(char *) * (map->map_height));
-	if (!map->map)
-		error("Memory allocation failed\n", -1, map);
+	map->map = ft_malloc(sizeof(char *) * \
+	(map->map_height), &map->collected_data);
 	map->fd = open(file, O_RDONLY);
 	if (map->fd < 0)
 		error("Can't open the file\n", -1, map);

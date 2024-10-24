@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:30:04 by ael-hara          #+#    #+#             */
-/*   Updated: 2024/10/23 05:51:25 by paradais         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:29:34 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_BONUS_H
 # define CUB3D_BONUS_H
 
-# include </Users/paradais/MLX42/include/MLX42/MLX42.h>
+# include </Users/aait-lha/MLX42/include/MLX42/MLX42.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -145,8 +145,10 @@ void			*ft_memset(void *b, int c, size_t len);
 # define PI 3.14159265359
 # define ROTATION_SPEED 0.2
 # define OFFSET  10
-# define RELOAD_FRAMES 59
-# define SHOT_FRAMES 9
+# define RELOAD_FRAMES 63
+# define SHOT_FRAMES 8
+# define MOUSE_SPEED 0.002
+# define EPSILON 0.000001
 
 
 enum e_direction
@@ -192,7 +194,6 @@ typedef struct s_vintersection
 	double	y_step;
 	int		wall_hit_x;
 	int		wall_hit_y;
-	int		wall_content;
 	float	next_vertical_x;
 	float	next_vertical_y;
 	float	y_to_check;
@@ -241,6 +242,8 @@ void			min_intersection(t_map_data *map, int x, int y, double angle);
 void			draw_ray(void *param);
 void			endering_logic(t_map_data *map, double *angle, int i);
 mlx_texture_t	*choose_texture(t_map_data *map, double angle);
+void	ft_move(mlx_key_data_t key, void *param);
 void	spirite(void *param);
+void	cursor_func(double xpos, double ypos, void *param);
 
 #endif

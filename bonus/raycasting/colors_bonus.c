@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   colors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 20:50:43 by ael-hara          #+#    #+#             */
-/*   Updated: 2024/10/23 02:12:11 by paradais         ###   ########.fr       */
+/*   Created: 2024/10/23 19:46:48 by aait-lha          #+#    #+#             */
+/*   Updated: 2024/10/23 19:46:49 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../include/cub3d_bonus.h"
 

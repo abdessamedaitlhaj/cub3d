@@ -6,7 +6,7 @@
 /*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 18:49:52 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/22 21:10:51 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:05:54 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,30 @@ size_t	ft_strlen(char *s)
 	return (len);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, t_node **collected_data)
 {
 	char	*s;
 	size_t	s1_len;
 	size_t	s2_len;
 
 	if (!s1 && !s2)
-		return (free(s1), s1 = NULL, NULL);
+		return (s1 = NULL, NULL);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
-	s = malloc(s1_len + s2_len + 1);
-	if (!s)
-		return (free(s1), s1 = NULL, NULL);
+	s = ft_malloc(s1_len + s2_len + 1, collected_data);
 	ft_strlcpy(s, s1, s1_len + s2_len + 1);
 	ft_strlcpy(s + s1_len, s2, s1_len + s2_len + 1);
-	free(s1);
-	s1 = NULL;
 	return (s);
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_strdup(char *s1, t_node **collected_data)
 {
 	int		len;
 	int		i;
 	char	*s2;
 
 	len = ft_strlen(s1);
-	s2 = malloc(len + 1);
-	if (s2 == NULL)
-		return (0);
+	s2 = ft_malloc(len + 1, collected_data);
 	i = 0;
 	while (s1[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: ael-hara <ael-hara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:37:15 by ael-hara          #+#    #+#             */
-/*   Updated: 2024/10/21 11:07:18 by ael-hara         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:56:54 by ael-hara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	init_vertical(t_vintersection *inter, int x, int y, double angle)
 	inter->next_vertical_y = inter->y_intercept;
 	inter->wall_hit_x = 0;
 	inter->wall_hit_y = 0;
-	inter->wall_content = 0;
 }
 
 double	vertical_intersection(t_map_data *map, int x, int y, double angle)
@@ -89,7 +88,6 @@ void	init_horizontal(t_intersection *inter, int x, int y, double angle)
 	inter->next_horizontal_y = inter->y_intercept;
 	inter->wall_hit_x = 0;
 	inter->wall_hit_y = 0;
-	inter->wall_content = 0;
 }
 
 double	horizontal_intersection(t_map_data *map, int x, int y, double angle)

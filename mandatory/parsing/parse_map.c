@@ -6,24 +6,11 @@
 /*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:34:25 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/22 21:10:35 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:12:53 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void	check_wall(char *line, t_map_data *map)
-{
-	int		i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != '1' && !ft_isspace(line[i]))
-			error("Map is not surrounded by walls\n", map->fd, map);
-		i++;
-	}
-}
 
 void	check_directions(t_map_data *map, char c, int j)
 {
@@ -41,18 +28,6 @@ void	check_directions(t_map_data *map, char c, int j)
 		error("Multiple player directions\n", map->fd, map);
 	if (j == -1 && !map->count_directions)
 		error("No player direction\n", map->fd, map);
-}
-
-void	last_char_check(t_map_data *map, char *line, size_t i)
-{
-	if (!line[i])
-	{
-		i--;
-		while (ft_isspace(line[i]))
-			i--;
-		if (line[i] != '1')
-			error("Map is not surrounded by walls\n", map->fd, map);
-	}
 }
 
 void	save_player_position(t_map_data *map, char *line, size_t i, int j)
@@ -102,17 +77,14 @@ void	check_map(t_map_data *map, char *line)
 	{
 		if (is_empty_line(line))
 		{
-			free(line);
 			error("Empty line in the map\n", map->fd, map);
 			break ;
 		}
 		check_map_matrix(map, line, i);
-		last_line = ft_strdup(line);
-		free(line);
-		line = get_next_line(map->fd);
+		last_line = ft_strdup(line, &map->collected_data);
+		line = get_next_line(map->fd, &map->collected_data);
 		if (!line)
 			check_map_matrix(map, last_line, -1);
-		free(last_line);
 		i++;
 	}
 }
@@ -120,25 +92,25 @@ void	check_map(t_map_data *map, char *line)
 void	load_file(char *file, t_map_data *map)
 {
 	char	*line;
-	char	*last_line;
-	size_t	i;
 
 	map->fd = open(file, O_RDONLY);
 	if (map->fd < 0)
 		error("Can't open the file\n", -1, map);
-	line = get_next_line(map->fd);
+	line = get_next_line(map->fd, &map->collected_data);
 	while (line)
 	{
 		if (is_empty_line(line))
 		{
-			free(line);
-			line = get_next_line(map->fd);
+			line = get_next_line(map->fd, &map->collected_data);
 			continue ;
 		}
 		if (element_type(line, map))
+		{
+			if (map->elements < 6)
+				error("Missing elements\n", map->fd, map);
 			break ;
-		free(line);
-		line = get_next_line(map->fd);
+		}
+		line = get_next_line(map->fd, &map->collected_data);
 	}
 	if (!line)
 		error("Missing data\n", map->fd, map);

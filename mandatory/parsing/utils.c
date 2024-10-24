@@ -6,7 +6,7 @@
 /*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:35:44 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/22 21:10:22 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:22:12 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	error(char	*message, int fd, t_map_data *map)
 	write (2, message, ft_strlen(message));
 	if (fd > 2)
 		close(fd);
-	free_data(map);
+	free_allocated(&map->collected_data);
 	exit(1);
 }
 

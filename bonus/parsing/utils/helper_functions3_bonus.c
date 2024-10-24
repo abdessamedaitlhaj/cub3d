@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_functions3_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 05:46:36 by paradais          #+#    #+#             */
-/*   Updated: 2024/10/23 05:48:50 by paradais         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:55:44 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,22 @@ char	*ft_itoa(int n)
 	int		len;
 	int		neg;
 
-	neg = 0;
-	if (n < 0)
-	{
-		neg = 1;
-		n = -n;
-	}
 	len = ft_nbrlen(n);
-	str = malloc(sizeof(char) * (len + neg + 1));
+	str = malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
-	i = len + neg - 1;
-	while (i >= neg)
+	i = len - 1;
+	while (i >= 0)
 	{
 		str[i] = n % 10 + '0';
 		n /= 10;
 		i--;
 	}
-	if (neg)
-		str[0] = '-';
-	str[len + neg] = '\0';
+	str[len] = '\0';
 	return (str);
 }
 
-char 	*ft_strjoin2(const char *s1, const char *s2)
+char	*ft_strjoin2(const char *s1, const char *s2)
 {
 	char	*str;
 	int		i;

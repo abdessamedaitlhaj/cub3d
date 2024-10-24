@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:34:25 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/23 02:10:52 by paradais         ###   ########.fr       */
+/*   Updated: 2024/10/23 20:10:29 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d_bonus.h"
-
-void	check_wall(char *line, t_map_data *map)
-{
-	int		i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != '1' && !ft_isspace(line[i]))
-			error("Map is not surrounded by walls\n", map->fd, map);
-		i++;
-	}
-}
 
 void	check_directions(t_map_data *map, char c, int j)
 {
@@ -41,18 +28,6 @@ void	check_directions(t_map_data *map, char c, int j)
 		error("Multiple player directions\n", map->fd, map);
 	if (j == -1 && !map->count_directions)
 		error("No player direction\n", map->fd, map);
-}
-
-void	last_char_check(t_map_data *map, char *line, size_t i)
-{
-	if (!line[i])
-	{
-		i--;
-		while (ft_isspace(line[i]))
-			i--;
-		if (line[i] != '1')
-			error("Map is not surrounded by walls\n", map->fd, map);
-	}
 }
 
 void	save_player_position(t_map_data *map, char *line, size_t i, int j)

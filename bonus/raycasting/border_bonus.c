@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   border_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 14:59:18 by ael-hara          #+#    #+#             */
-/*   Updated: 2024/10/23 02:12:09 by paradais         ###   ########.fr       */
+/*   Created: 2024/10/23 19:46:41 by aait-lha          #+#    #+#             */
+/*   Updated: 2024/10/23 19:46:42 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../include/cub3d_bonus.h"
 

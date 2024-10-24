@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-hara <ael-hara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:37:15 by ael-hara          #+#    #+#             */
-/*   Updated: 2024/10/23 02:12:18 by paradais         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:16:29 by ael-hara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	init_vertical(t_vintersection *inter, int x, int y, double angle)
 	inter->next_vertical_y = inter->y_intercept;
 	inter->wall_hit_x = 0;
 	inter->wall_hit_y = 0;
-	inter->wall_content = 0;
 }
 
 double	vertical_intersection(t_map_data *map, int x, int y, double angle)

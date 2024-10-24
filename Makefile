@@ -1,8 +1,7 @@
 CC = cc 
-FLAGS = -w #-Wall -Wextra -Werror
-FLAGS += -fsanitize=address -g
-NAME = cub3d
-NAME_BONUS = cub3d_bonus
+FLAGS = -w -Wall -Wextra -Werror
+NAME = cub3D
+NAME_BONUS = cub3D_bonus
 RM = rm -f
 SRCS = 	mandatory/src/cub3d.c						\
 		mandatory/parsing/utils/get_next_line.c		\
@@ -16,6 +15,7 @@ SRCS = 	mandatory/src/cub3d.c						\
 	 	mandatory/parsing/parse_map.c				\
 	 	mandatory/parsing/check_elements.c			\
 	 	mandatory/parsing/fill_data.c				\
+	 	mandatory/parsing/check_wall.c				\
 		mandatory/raycasting/map_init.c				\
 		mandatory/raycasting/raycasting.c			\
 		mandatory/raycasting/border.c				\
@@ -40,6 +40,7 @@ SRCS_BONUS = bonus/src/cub3d_bonus.c					\
 	 	bonus/parsing/parse_map_bonus.c					\
 	 	bonus/parsing/check_elements_bonus.c			\
 	 	bonus/parsing/fill_data_bonus.c					\
+	 	bonus/parsing/check_wall_bonus.c					\
 		bonus/raycasting/map_init_bonus.c				\
 		bonus/raycasting/raycasting_bonus.c				\
 		bonus/raycasting/border_bonus.c					\
@@ -50,7 +51,8 @@ SRCS_BONUS = bonus/src/cub3d_bonus.c					\
 		bonus/raycasting/colors_bonus.c					\
 		bonus/raycasting/draw_line_bonus.c				\
 		bonus/raycasting/ray_bonus.c					\
-		bonus/raycasting/sprite_bonus.c
+		bonus/raycasting/sprite_bonus.c					\
+		bonus/raycasting/sprite_utils_bonus.c
 		
 NEW_MLX			=	"/Users/$(USER)/MLX42/build/libmlx42.a" -Iinclude -lglfw \
 				-L"/Users/$(USER)/homebrew/opt/glfw/lib/"	\

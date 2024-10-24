@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aait-lha <aait-lha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:25:11 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/23 04:44:56 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/10/23 20:13:59 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	init_scene(t_map_data *map)
 	map->texture->texture_s = NULL;
 	map->texture->texture_w = NULL;
 	map->texture->texture_e = NULL;
+	map->shot_sprites = NULL;
+	map->reload_sprites = NULL;
 	map->floor = NULL;
 	map->ceiling = NULL;
 	map->comp1 = NULL;

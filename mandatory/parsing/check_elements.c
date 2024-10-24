@@ -6,7 +6,7 @@
 /*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:52:27 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/22 21:10:41 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:21:35 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,19 @@
 
 void	check_color_format(char *format, t_map_data *map, char type)
 {
-	map->comp2 = ft_split2(format, ',');
-	if (!map->comp2)
-		error("Memory allocation failed\n", map->fd, map);
+	map->comp2 = ft_split2(format, ',', &map->collected_data);
 	if (count_strings(map->comp2) != 3)
 		error("Color format is invalid\n", map->fd, map);
 	if (type == 'F')
 	{
-		map->floor = malloc(sizeof(t_color_data));
-		if (!map->floor)
-			error("Memory allocation failed\n", map->fd, map);
+		map->floor = ft_malloc(sizeof(t_color_data), &map->collected_data);
 		map->floor->red = ft_atoi(map->comp2[0], map);
 		map->floor->green = ft_atoi(map->comp2[1], map);
 		map->floor->blue = ft_atoi(map->comp2[2], map);
 	}
 	if (type == 'C')
 	{
-		map->ceiling = malloc(sizeof(t_color_data));
-		if (!map->ceiling)
-			error("Memory allocation failed\n", map->fd, map);
+		map->ceiling = ft_malloc(sizeof(t_color_data), &map->collected_data);
 		map->ceiling->red = ft_atoi(map->comp2[0], map);
 		map->ceiling->green = ft_atoi(map->comp2[1], map);
 		map->ceiling->blue = ft_atoi(map->comp2[2], map);
@@ -67,13 +61,13 @@ int	check_textures(t_map_data *map)
 		ft_strncmp(map->comp1[0], "EA", 2))
 			error("Texture symboles are invalid\n", map->fd, map);
 		if (ft_strncmp(map->comp1[0], "NO", 2) == 0)
-			store_texture(map->comp1[0], map->comp1[1], map);
+			store_no_so(map->comp1[0], map->comp1[1], map);
 		if (ft_strncmp(map->comp1[0], "SO", 2) == 0)
-			store_texture(map->comp1[0], map->comp1[1], map);
+			store_no_so(map->comp1[0], map->comp1[1], map);
 		if (ft_strncmp(map->comp1[0], "WE", 2) == 0)
-			store_texture(map->comp1[0], map->comp1[1], map);
+			store_we_ea(map->comp1[0], map->comp1[1], map);
 		if (ft_strncmp(map->comp1[0], "EA", 2) == 0)
-			store_texture(map->comp1[0], map->comp1[1], map);
+			store_we_ea(map->comp1[0], map->comp1[1], map);
 		map->elements++;
 		if (map->elements > 6)
 			error("Too many elements\n", map->fd, map);
@@ -84,7 +78,7 @@ int	check_textures(t_map_data *map)
 
 int	element_type(char *line, t_map_data *map)
 {
-	map->comp1 = ft_split(line);
+	map->comp1 = ft_split(line, &map->collected_data);
 	if (!map->comp1)
 		error("Memory allocation failed\n", map->fd, map);
 	if (!ft_isdigit(map->comp1[0][0]) && count_strings(map->comp1) != 2)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aait-lha <aait-lha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-hara <ael-hara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:03:04 by ael-hara          #+#    #+#             */
-/*   Updated: 2024/10/23 03:04:21 by aait-lha         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:57:54 by ael-hara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,61 +69,15 @@ void	ft_move(mlx_key_data_t key, void *param)
 		ft_rotate_player(map, key);
 }
 
-
-
-void cursor_func(double xpos, double ypos, void *param)
-{
-    t_map_data *map;
-    static double last_x = -1;
-    double rotation_speed;
-    double x_offset;
-    double epsilon;
-    
-    (void)ypos;  // We don't need vertical mouse movement for this implementation
-    map = (t_map_data *)param;
-    epsilon = 0.000001;
-    rotation_speed = 0.002;  // Adjust this value to control rotation sensitivity
-    
-    // Initialize last_x on first call
-    if (last_x == -1)
-    {
-        last_x = xpos;
-        return;
-    }
-    
-    // Calculate the offset from last position
-    x_offset = xpos - last_x;
-    
-    // Update player angle based on mouse movement
-    map->player->player_angle += x_offset * rotation_speed;
-    
-    // Normalize the angle between 0 and 2*PI
-    if (map->player->player_angle >= 2 * PI)
-        map->player->player_angle = 0 + epsilon;
-    if (map->player->player_angle <= 0)
-        map->player->player_angle = 2 * PI - epsilon;
-	printf("angle: %f\n", map->player->player_angle);
-    
-    // Store current position for next frame
-    last_x = xpos;
-    
-    // Center the cursor to prevent hitting screen edges
-    if (xpos <= 10 || xpos >= WIDTH - 10)
-    {
-        mlx_set_mouse_pos(map->mlx, WIDTH / 2, HEIGHT / 2);
-        last_x = WIDTH / 2;
-    }
-}
-
 void	map_init(t_map_data *map)
 {
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	map->img = mlx_new_image(map->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(map->mlx, map->img, 0, 0);
-	while (i < map->map_height)
+	while (++i < map->map_height)
 	{
 		j = 0;
 		while (map->map[i][j])
@@ -138,11 +92,8 @@ void	map_init(t_map_data *map)
 			}
 			j++;
 		}
-		i++;
 	}
 	mlx_key_hook(map->mlx, &ft_move, map);
-	mlx_cursor_hook(map->mlx, &cursor_func, map);
-	mlx_set_cursor_mode(map->mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(map->mlx, &draw_ray, map);
 	mlx_loop(map->mlx);
 }

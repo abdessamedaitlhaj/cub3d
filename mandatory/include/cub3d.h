@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:30:04 by ael-hara          #+#    #+#             */
-/*   Updated: 2024/10/23 02:23:39 by paradais         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:20:53 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include </Users/paradais/MLX42/include/MLX42/MLX42.h>
+# include </Users/aait-lha/MLX42/include/MLX42/MLX42.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -21,6 +21,12 @@
 # include <unistd.h>
 # include <ctype.h>
 # include <math.h>
+
+typedef struct s_node
+{
+	void		*content;
+	struct s_node	*next;
+}	t_node;
 
 typedef struct s_player_data
 {
@@ -65,6 +71,7 @@ typedef struct s_map_data
 	int				max_width;
 	char			**comp1;
 	char			**comp2;
+	t_node			*collected_data;
 	int				count_directions;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
@@ -83,14 +90,22 @@ typedef struct s_map_data
 	mlx_texture_t	*choosen_texture;
 }	t_map_data;
 
-char			*get_next_line(int fd);
+typedef struct s_split_args
+{
+	char		**tab;
+	const char	*s;
+	char		c;
+	int			i;
+}	t_split_args;
+
+char			*get_next_line(int fd, t_node **collected_data);
 char			*ft_strchr(char *s, int c);
 size_t			ft_strlen(char *s);
 size_t			ft_strlcpy(char *dst, char *src, size_t dstsize);
-char			*ft_strjoin(char *s1, char *s2);
-char			*ft_strdup(char *s1);
-char			**ft_split2(char const *s, char c);
-char			**ft_split(char const *s);
+char			*ft_strjoin(char *s1, char *s2, t_node **collected_data);
+char			*ft_strdup(char *s1, t_node **collected_data);
+char			**ft_split2(char const *s, char c, t_node **collected_data);
+char			**ft_split(char const *s, t_node **collected_data);
 int				ft_isspace(int c);
 int				ft_strncmp(char *s1, char *s2, size_t n);
 int				count_strings(char **s);
@@ -101,8 +116,9 @@ int				ft_atoi(char *number, t_map_data *map);
 void			error(char	*message, int fd, t_map_data *map);
 void			check_file_extention(char *file, t_map_data *map);
 int				is_empty_line(char *line);
-int				et_map_width(char *line);
-void			store_texture(char *type, char *path, t_map_data *map);
+int				get_map_width(char *line);
+void			store_no_so(char *type, char *path, t_map_data *map);
+void			store_we_ea(char *type, char *path, t_map_data *map);
 void			check_color_format(char *format, t_map_data *map, char type);
 int				element_type(char *line, t_map_data *map);
 void			check_wall(char *line, t_map_data *map);
@@ -115,6 +131,15 @@ void			move_right(t_map_data *map, double old_x, double old_y);
 void			fill_matrix(char *file, t_map_data *map);
 void			free_data(t_map_data *map);
 int				get_map_width(char *line);
+
+
+void	error_and_free(char *str, t_node **garbage_collector);
+void	*ft_lstnew(void *content);
+void	ft_lstadd_back(t_node **list, t_node *new);
+t_node	*init_malloc(void);
+void	free_allocated(t_node **garbage_collector);
+void	*ft_malloc(size_t size, t_node **garbage_collector);
+
 
 
 
@@ -159,7 +184,6 @@ typedef struct s_intersection
 	double	y_step;
 	int		wall_hit_x;
 	int		wall_hit_y;
-	int		wall_content;
 	float	next_horizontal_x;
 	float	next_horizontal_y;
 	float	x_to_check;
@@ -181,7 +205,6 @@ typedef struct s_vintersection
 	double	y_step;
 	int		wall_hit_x;
 	int		wall_hit_y;
-	int		wall_content;
 	float	next_vertical_x;
 	float	next_vertical_y;
 	float	y_to_check;
@@ -228,7 +251,7 @@ void			get_xcord(t_map_data *map, double x, double y,
 double			normal_angle(double angle);
 void			min_intersection(t_map_data *map, int x, int y, double angle);
 void			draw_ray(void *param);
-void			endering_logic(t_map_data *map, double *angle, int i);
+void			rendering_logic(t_map_data *map, double *angle, int i);
 mlx_texture_t	*choose_texture(t_map_data *map, double angle);
 
 #endif

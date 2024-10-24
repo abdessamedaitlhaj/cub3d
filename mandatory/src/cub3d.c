@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paradais <paradais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aait-lha <aait-lha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:25:11 by aait-lha          #+#    #+#             */
-/*   Updated: 2024/10/23 06:17:34 by paradais         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:11:29 by aait-lha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 void	init_scene(t_map_data *map)
 {
+	map->collected_data = NULL;
 	map->map = NULL;
 	map->map_height = 0;
 	map->elements = 0;
 	map->count_colors = 2;
 	map->count_textures = 4;
-	map->player = malloc(sizeof(t_player_data));
-	if (!map->player)
-		error("Memory allocation failed\n", -1, map);
-	map->texture = malloc(sizeof(t_texture_data));
-	if (!map->texture)
-		error("Memory allocation failed\n", -1, map);
+	map->player = ft_malloc(sizeof(t_player_data), &map->collected_data);
+	map->texture = ft_malloc(sizeof(t_texture_data), &map->collected_data);
 	map->fd = 0;
 	map->max_width = 0;
 	map->count_directions = 0;
@@ -40,28 +37,29 @@ void	init_scene(t_map_data *map)
 	map->player_y = 0;
 }
 
-void	print_matrix(t_map_data *map)
-{
-	int i, j;
+// void	print_matrix(t_map_data *map)
+// {
+// 	int i, j;
 
-	i = 0;
-	while (i < map->map_height)
-	{
-		j = 0;
-		while (map->map[i][j])
-		{
-			write(1, &map->map[i][j], 1);
-			j++;
-		}
-		write(1, "\n", 1);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < map->map_height)
+// 	{
+// 		j = 0;
+// 		while (map->map[i][j])
+// 		{
+// 			write(1, &map->map[i][j], 1);
+// 			j++;
+// 		}
+// 		write(1, "\n", 1);
+// 		i++;
+// 	}
+// }
 
 void f()
 {
-	system("leaks cub3d");
+	system("leaks cub3D");
 }
+
 int	main (int argc, char **argv) 
 {
 	t_map_data map;
@@ -77,6 +75,8 @@ int	main (int argc, char **argv)
 	check_file_extention(argv[1], &map);
 	load_file(argv[1], &map);
 	fill_matrix(argv[1], &map);
-	raycasting_scene(&map);
+	//raycasting_scene(&map);
+	//free_data(&map);
+	printf("done\n");
 	return (0);
 }
